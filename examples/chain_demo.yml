@@ -1,23 +1,23 @@
 # Each shot uses the last frame of the previous as a starting point
 prompts:
   - |
-    Subject: lone explorer in abandoned megacity ruins
-    Action: navigates through fog-shrouded debris
-    Style: desaturated cyberpunk, oppressive atmosphere
-    Camera: wide shot, industrial decay visible
-    Ambience: toxic mist, crumbling neon signs
-    Audio: distant machinery, static interference
+    Subject: security personnel in tactical gear exploring upper floors of abandoned building in modern downtown district
+    Action: moves through empty rooms with dust-covered furniture toward windows for reconnaissance of city below
+    Style: professional security documentation, abandoned modern cityscape surveillance
+    Camera: following shot through empty interior spaces with 1950s-style furniture, tactical movement
+    Ambience: abandoned building interior with raised expressway system visible through windows
+    Audio: radio equipment static, footsteps on debris, wind through broken windows, distant urban sounds
   - |
-    Subject: explorer finds strange geometric portal
-    Action: cautiously approaches pulsing anomaly
-    Style: eldritch horror meets sci-fi, unsettling glow
-    Camera: slow push-in, building tension
-    Ambience: reality warping around the portal
-    Audio: otherworldly harmonics, electronic whispers
+    Subject: security officer approaches window and sets up observation equipment to survey raised expressways encircling the city
+    Action: establishes surveillance position, notices large moving objects on elevated highway system
+    Style: professional reconnaissance perspective, dead city with raised transportation infrastructure
+    Camera: over-shoulder view through window of security officer with equipment, focusing on cityscape with expressways
+    Ambience: modern downtown district with raised expressway system, something massive moving on highways
+    Audio: radio communications, equipment adjustment, wind through broken windows, distant mechanical sounds from city
   - |
-    Subject: portal reveals glimpse of impossible space
-    Action: tentacles of light emerge, reach toward explorer
-    Style: cosmic horror, digital distortion effects
-    Camera: extreme close-up on face, awe and terror
-    Ambience: space-time bending, fractal patterns
-    Audio: reality tearing, digital screams
+    Subject: security officer realizes through binoculars that moving objects are 50-foot tall faceless torsos
+    Action: professional documentation and reporting as the Unclean entities drag themselves with elongated arms, brown gel dripping
+    Style: clinical security documentation showing scale of massive torso creatures without legs or faces
+    Camera: alternating between security officer's reaction and closer view of raised expressway showing enormous torso entities crawling in circles
+    Ambience: abandoned cityscape with massive faceless humanoid torsos slowly dragging themselves on highways
+    Audio: urgent radio reporting, distant bellowing sounds from creatures, scraping of elongated arms on pavement

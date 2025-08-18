@@ -1,14 +1,19 @@
 {
-  "title": "Digital Séance",
+  "title": "Blue Test - Tunnel to Lit Room Discovery",
   "shots": [
     {
-      "id": "ritual_01",
-      "prompt": "Subject: ancient ritual circle projected as hologram\nAction: symbols slowly rotate and pulse\nStyle: occult cyberpunk, ethereal blue light\nCamera: overhead view, sacred geometry emphasized\nAmbience: darkened room, technology and mysticism merged\nAudio: electronic chanting, data streams",
-      "negative": "bright lighting, cheerful atmosphere"
+      "id": "tunnel_01",
+      "prompt": "Subject: D-20384, 34-year-old male D-Class personnel walking through concrete tunnel with partially functional ceiling light fixtures, past multiple side doors\nAction: moves cautiously forward through concrete enclosure, 3/4 of ceiling lights working, six side doors visible along walls\nStyle: institutional underground with failing electrical systems, building tension\nCamera: following shot from behind through concrete tunnel, flickering ceiling lights casting uneven illumination\nAmbience: concrete tunnel enclosure with metal shelving debris, distant bright light ahead\nAudio: echoing footsteps on concrete, electrical humming from failing ceiling fixtures, distant mechanical sounds",
+      "negative": "outdoor scenes, natural lighting, clean environments"
     },
     {
-      "id": "ritual_02", 
-      "prompt": "Subject: ghostly figure materializes in digital static\nAction: form solidifies from glitched pixels\nStyle: haunting beauty, digital corruption aesthetic\nCamera: medium shot, figure emerging from noise\nAmbience: reality glitching, spectral presence\nAudio: digital whispers, phantom voices",
+      "id": "emergence_02", 
+      "prompt": "Subject: D-20384 approaches final door blocked by rusted metal shelving debris, bright over-lit room beyond\nAction: hesitates at threshold of harshly illuminated chamber with filthy walls\nStyle: stark lighting contrast from concrete tunnel to over-bright institutional space\nCamera: medium shot showing subject silhouetted against brilliant room lighting, metal debris visible\nAmbience: dark concrete tunnel opening to over-illuminated chamber with melted plastic-like brown material on walls\nAudio: footsteps slowing on concrete, mechanical hum growing louder, metal debris shifting",
+      "carry_last_frame": true
+    },
+    {
+      "id": "revelation_03",
+      "prompt": "Subject: D-20384 emerges into bare room with filthy walls covered in melted plastic-like brown material, makeshift cot and wooden crates visible\nAction: turns to survey the bizarre chamber with crumbling newspaper clippings, aged blankets, dried water bottles\nStyle: clinical institutional over-lighting contrasting with filthy decaying contents\nCamera: wide shot revealing full scope of lit room with makeshift living arrangements and wall deterioration\nAmbience: over-bright institutional space with makeshift cot, wooden crates with old cereal boxes, closed book\nAudio: mechanical systems humming, subject's breathing, realization of human habitation in wrong place",
       "carry_last_frame": true
     }
   ]
