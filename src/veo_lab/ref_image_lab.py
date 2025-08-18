@@ -1,0 +1,32 @@
+from __future__ import annotations
+
+import pathlib
+
+import typer
+
+from .common import OUT
+from .common import create_client
+from .common import generate_video
+from .common import image_from_file
+
+app = typer.Typer(add_completion=False, no_args_is_help=True)
+
+
+@app.command()
+def run(
+    ref_dir: pathlib.Path = typer.Option(..., "--ref-dir"),
+    scene_prompt_file: pathlib.Path = typer.Option(..., "--scene"),
+    output: pathlib.Path = typer.Option(OUT, "--out"),
+):
+    prompt = scene_prompt_file.read_text(encoding="utf-8").strip()
+    client = create_client()
+    imgs = sorted([p for p in ref_dir.glob("*") if p.suffix.lower() in {".jpg", ".jpeg", ".png"}])
+    assert imgs, "no images found in ref_dir"
+    for i, path in enumerate(imgs, start=1):
+        ref = image_from_file(path)
+        res = generate_video(client, prompt, image=ref, out_dir=output, name_prefix=f"ref{i:03d}-")
+        print(f"{path.name} -> {res.path.name}")
+
+
+if __name__ == "__main__":
+    app()
