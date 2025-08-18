@@ -14,7 +14,7 @@ load_dotenv()
 
 # Known Imagen model ids
 KNOWN_IMAGEN_MODELS = [
-    "imagen-3.0-generate-001",
+    "imagen-3.0-generate-002",
     "imagen-3.0-fast-generate-001",
 ]
 
@@ -23,7 +23,7 @@ def list_models():
     """Return known model ids and the current default from env."""
     return {
         "known": KNOWN_IMAGEN_MODELS,
-        "default": os.environ.get("IMAGEN_MODEL", "imagen-3.0-generate-001"),
+        "default": os.environ.get("IMAGEN_MODEL", "imagen-3.0-generate-002"),
     }
 
 
@@ -102,6 +102,6 @@ def save_generated_image(
 
     # Save image data
     with open(image_path, "wb") as f:
-        f.write(image.data)
+        f.write(image.image_bytes)
 
     return image_path

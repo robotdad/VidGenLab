@@ -7,6 +7,7 @@ import typer
 
 from imagen_lab.common import create_client
 from imagen_lab.common import create_output_path
+from imagen_lab.common import list_models
 from imagen_lab.common import save_generated_image
 from imagen_lab.common import save_metadata
 from imagen_lab.common import save_prompt_file
@@ -36,15 +37,25 @@ def generate(
         bool,
         typer.Option("--dry", help="Show what would be generated without calling API"),
     ] = False,
+    list_models_flag: Annotated[
+        bool,
+        typer.Option("--list-models", help="List known model ids and current default"),
+    ] = False,
 ) -> None:
     """Generate an image from a text prompt using Imagen."""
+    import json
+    import os
+    
+    if list_models_flag:
+        print(json.dumps(list_models(), indent=2))
+        return
+        
     # Model selection precedence:
     # 1) Explicit --model argument
     # 2) IMAGEN_MODEL environment variable
-    # 3) "imagen-3.0-generate-001" default
-    import os
+    # 3) "imagen-3.0-generate-002" default
 
-    picked_model = model or os.environ.get("IMAGEN_MODEL") or "imagen-3.0-generate-001"
+    picked_model = model or os.environ.get("IMAGEN_MODEL") or "imagen-3.0-generate-002"
 
     print(f"Generating image: {prompt}")
     print(f"Model: {picked_model}")
