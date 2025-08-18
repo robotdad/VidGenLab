@@ -4,10 +4,10 @@ Runs git-collector → falls back to npx automatically (with --yes) →
 shows guidance only if everything fails.
 """
 
-from shutil import which
+import os
 import subprocess
 import sys
-import os
+from shutil import which
 from textwrap import dedent
 
 OUTPUT_DIR = "ai_context/git_collector"
@@ -64,8 +64,7 @@ def main() -> None:
             # Redirect output to avoid cluttering the console
             result = subprocess.run(
                 [pnpm_path, "list", "git-collector"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 text=True,
                 check=False,
             )

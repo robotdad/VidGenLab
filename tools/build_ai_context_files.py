@@ -12,11 +12,11 @@ And will be run from the repository root.
 """
 
 import argparse
-import os
-import sys
 import datetime
-import re
+import os
 import platform
+import re
+import sys
 
 OUTPUT_DIR = "ai_context/generated"
 
@@ -65,7 +65,38 @@ def strip_date_line(text: str) -> str:
 
 def build_context_files(force=False) -> None:
     # Define the tasks to run
-    tasks = []
+    tasks = [
+        {
+            "patterns": ["src/**/*.py"],
+            "output": f"{OUTPUT_DIR}/source_code.md",
+            "exclude": ["__pycache__", "*.pyc", ".pytest_cache", "*.egg-info"],
+            "include": [],
+        },
+        {
+            "patterns": ["*.toml", "*.yml", "*.yaml", "Makefile", "ruff.toml"],
+            "output": f"{OUTPUT_DIR}/config_files.md",
+            "exclude": ["uv.lock"],
+            "include": [],
+        },
+        {
+            "patterns": ["*.md"],
+            "output": f"{OUTPUT_DIR}/documentation.md",
+            "exclude": ["ai_context/generated"],
+            "include": [],
+        },
+        {
+            "patterns": ["examples/**/*"],
+            "output": f"{OUTPUT_DIR}/examples.md",
+            "exclude": ["*.mp4", "*.jpg", "*.png", "*.jpeg"],
+            "include": [],
+        },
+        {
+            "patterns": ["tools/**/*.py"],
+            "output": f"{OUTPUT_DIR}/tools.md",
+            "exclude": ["__pycache__", "*.pyc"],
+            "include": [],
+        },
+    ]
 
     # Execute each task
     for task in tasks:
@@ -111,7 +142,7 @@ def build_context_files(force=False) -> None:
             rel_path = os.path.relpath(file)
             content_body += f"=== File: {rel_path} ===\n"
             try:
-                with open(file, "r", encoding="utf-8") as f:
+                with open(file, encoding="utf-8") as f:
                     content_body += f.read()
             except Exception as e:
                 content_body += f"[ERROR reading file: {e}]\n"
@@ -122,7 +153,7 @@ def build_context_files(force=False) -> None:
         # If file exists and we're not forcing, compare (ignoring only the date)
         if os.path.exists(output) and not force:
             try:
-                with open(output, "r", encoding="utf-8") as f:
+                with open(output, encoding="utf-8") as f:
                     existing_content = f.read()
                 # Strip out date lines from both
                 existing_sanitized = strip_date_line(existing_content).strip()

@@ -11,7 +11,7 @@ def get_file_sizes(directory):
     file_sizes = []
 
     # Walk through the directory tree
-    for dirpath, dirnames, filenames in os.walk(directory):
+    for dirpath, _dirnames, filenames in os.walk(directory):
         for filename in filenames:
             # Get the full path of the file
             file_path = os.path.join(dirpath, filename)
@@ -42,8 +42,7 @@ def format_size(size_bytes):
     # Format with 2 decimal places if not bytes
     if unit_index == 0:
         return f"{size_bytes} {units[unit_index]}"
-    else:
-        return f"{size_bytes:.2f} {units[unit_index]}"
+    return f"{size_bytes:.2f} {units[unit_index]}"
 
 
 def main():

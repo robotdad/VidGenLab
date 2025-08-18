@@ -1,15 +1,34 @@
 [project]
-name = "workspace"
+name = "vidgenlab"
 version = "0.1.0"
-description = "Workspace project"
+description = "Exploring generative AI video APIs with modular experiments"
+authors = [{ name = "robotdad" }]
 requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "google-genai>=0.3.0",
+    "jinja2>=3.1.4",
+    "pyyaml>=6.0.2",
+    "typer>=0.12.3",
+    "tqdm>=4.66.4",
+    "pydantic>=2.8.2",
+    "rich>=13.7.1",
+    "pillow>=10.3.0",
+    "streamlit>=1.36.0",
+    "python-dotenv>=1.0.1",
+]
 
-[tool.uv.workspace]
-# Add all projects in the workspace
-members = []
+[tool.setuptools]
+packages = ["veo_lab", "imagen_lab"]
+package-dir = {"" = "src"}
 
-[tool.uv.sources]
-# Example: my-project = { workspace = true }
+[project.scripts]
+imagen_lab = "imagen_lab.cli:app"
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [dependency-groups]
 dev = [

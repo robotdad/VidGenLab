@@ -4,6 +4,9 @@
 repo_root = $(shell git rev-parse --show-toplevel)
 include $(repo_root)/tools/makefiles/recursive.mk
 
+# Include Python makefile for this project's source code  
+include $(repo_root)/tools/makefiles/python.mk
+
 # Helper function to list discovered projects
 define list_projects
 	@echo "Projects discovered: $(words $(MAKE_DIRS))"
@@ -15,7 +18,7 @@ endef
 .DEFAULT_GOAL := help
 
 # Main targets
-.PHONY: help install dev test check
+.PHONY: help workspace-install dev test
 
 help: ## Show this help message
 	@echo ""
@@ -32,8 +35,10 @@ help: ## Show this help message
 	@echo "  make clean          Clean build artifacts"
 	@echo ""
 
-# Installation
-install: ## Install all dependencies
+# Override install to add workspace setup messaging
+install: workspace-install
+
+workspace-install: ## Install all dependencies with workspace messaging
 	@echo "Installing workspace dependencies..."
 	uv sync --group dev
 	@echo ""
@@ -47,8 +52,7 @@ install: ## Install all dependencies
 		echo "✗ No virtual environment found. Run 'make install' first."; \
 	fi
 
-# Code quality
-# check is handled by recursive.mk automatically
+# Code quality and test targets are provided by python.mk
 
 # AI Context
 ai-context-files: ## Build AI context files

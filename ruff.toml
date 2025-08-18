@@ -1,8 +1,8 @@
 # Ruff configuration for the entire project
 # This ensures consistent formatting across all Python code
 
-# Use 120 character line length to prevent splitting Reflex lambdas
-line-length = 120
+# Use 100 character line length for consistency with veo lab
+line-length = 100
 
 # Target Python 3.11+
 target-version = "py311"
