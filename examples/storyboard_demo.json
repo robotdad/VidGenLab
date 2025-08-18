@@ -1,0 +1,15 @@
+{
+  "title": "Digital Séance",
+  "shots": [
+    {
+      "id": "ritual_01",
+      "prompt": "Subject: ancient ritual circle projected as hologram\nAction: symbols slowly rotate and pulse\nStyle: occult cyberpunk, ethereal blue light\nCamera: overhead view, sacred geometry emphasized\nAmbience: darkened room, technology and mysticism merged\nAudio: electronic chanting, data streams",
+      "negative": "bright lighting, cheerful atmosphere"
+    },
+    {
+      "id": "ritual_02", 
+      "prompt": "Subject: ghostly figure materializes in digital static\nAction: form solidifies from glitched pixels\nStyle: haunting beauty, digital corruption aesthetic\nCamera: medium shot, figure emerging from noise\nAmbience: reality glitching, spectral presence\nAudio: digital whispers, phantom voices",
+      "carry_last_frame": true
+    }
+  ]
+}

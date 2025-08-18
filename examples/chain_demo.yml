@@ -1,0 +1,23 @@
+# Each shot uses the last frame of the previous as a starting point
+prompts:
+  - |
+    Subject: lone explorer in abandoned megacity ruins
+    Action: navigates through fog-shrouded debris
+    Style: desaturated cyberpunk, oppressive atmosphere
+    Camera: wide shot, industrial decay visible
+    Ambience: toxic mist, crumbling neon signs
+    Audio: distant machinery, static interference
+  - |
+    Subject: explorer finds strange geometric portal
+    Action: cautiously approaches pulsing anomaly
+    Style: eldritch horror meets sci-fi, unsettling glow
+    Camera: slow push-in, building tension
+    Ambience: reality warping around the portal
+    Audio: otherworldly harmonics, electronic whispers
+  - |
+    Subject: portal reveals glimpse of impossible space
+    Action: tentacles of light emerge, reach toward explorer
+    Style: cosmic horror, digital distortion effects
+    Camera: extreme close-up on face, awe and terror
+    Ambience: space-time bending, fractal patterns
+    Audio: reality tearing, digital screams
