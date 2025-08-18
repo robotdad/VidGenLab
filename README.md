@@ -1,447 +1,168 @@
-# 🚀 AI Code Project Template
+# VidGenLab
 
-> **Transform your ideas into reality 10x faster—while keeping your unique creative vision.**
+Python toolkit for experimenting with AI video generation using **Veo 3** and image generation using **Imagen 3** via Google's Gemini API.
 
-This isn't just another project template. It's a complete AI-first development environment that amplifies your capabilities while preserving what makes your work uniquely yours. It is currently configured to work with Claude Code and Gemini CLI.
+Generate images from text prompts, analyze existing images, then create videos with reference images. Build complete visual pipelines from text descriptions to finished videos.
 
-## ✨ What if you could...
+## What You Can Do
 
-- 🔔 **Never break flow** with desktop notifications when AI needs input
-- ✅ **Stop thinking about quality** with automated checks on every change
-- 🧠 **Code your way** with philosophy-driven development built-in
-- 📚 **Feed AI perfectly** with smart context management tools
-- ⚡ **Start building in 5 minutes** instead of setting up for hours
+**Image Generation (`imagen_lab`)**:
+- **Generate images** from text prompts using Imagen 3
+- **Analyze existing images** to extract descriptive prompts
+- **Create reference images** for consistent video generation
 
-**You can. Starting right now.**
+**Video Generation (`veo_lab`)**:
+- **Generate single videos** from text descriptions  
+- **Create sequential shots** where each builds on the last frame
+- **Test variations systematically** using templates and matrices
+- **Use reference images** for character and style consistency
+- **Organize outputs automatically** with timestamps and metadata
 
-## 🎬 See It In Action
+**Complete Pipeline**: Text → Image → Video workflows for full creative control
 
-```bash
-# 1. Create from template
-Click the "Use this template" button on GitHub to create a new repository.
+All scripts save organized outputs to `out/` with descriptive filenames, metadata, and a `latest` symlink to your most recent work.
 
-# 2. Clone your new repository
-git clone https://github.com/[your-username]/[your-new-repo-name]
-cd [your-new-repo-name]
+## Prerequisites
 
-# 3. In your AI assistant, run:
-/prime
+- **Python 3.11+**
+- **FFmpeg** on your PATH  
+- **Gemini API key** with Veo access ([Rate Limits Info](https://ai.google.dev/gemini-api/docs/rate-limits))
 
-# 4. Start building!
-/ultrathink-task Help me build a web app that [your amazing idea here]
-```
-
-**That's it.** You're now developing at AI velocity with human creativity.
-
-## 🎯 Who This Is For
-
-### 🎨 **Product Managers & Designers**
-
-Finally, you can prototype as fast as you can imagine. Natural language to working code in minutes.
-
-### 👩‍💻 **Engineers**
-
-Stop context switching. Automated quality checks and smart notifications keep you in deep work.
-
-### 🏗️ **Architects**
-
-Build platforms, not just projects. Your expertise becomes your team's capability.
-
-### 🚀 **Startups & Innovators**
-
-Move at the speed of thought. Test ideas in hours, not weeks.
-
-## 💎 What Makes This Special
-
-### 🔔 **Desktop Notifications That Keep You In Flow** [Claude Code only]
-
-Never check your terminal again. Get native notifications when:
-
-- Claude Code needs permission to proceed
-- Tasks complete successfully
-- Errors need your attention
-
-Works seamlessly on Mac, Linux, Windows, and WSL.
-
-### 🤖 **Multi-Agent Problem Solving**
-
-The `/ultrathink-task` command orchestrates specialized AI agents:
-
-- **Architect Agent**: Designs high-level approach
-- **Research Agent**: Gathers knowledge and best practices
-- **Coder Agent**: Implements solutions
-- **Tester Agent**: Validates and verifies
-
-Complex problems solved systematically, every time.
-
-### ✅ **Automated Quality, Zero Friction** [Claude Code only]
-
-Every code change triggers quality checks automatically:
-
-- Formatting fixed
-- Linting applied
-- Type checking run
-- Tests executed
-
-You focus on creating. Quality happens automatically.
-
-### 🧠 **Philosophy-Driven Development**
-
-Your development principles embedded in every interaction:
-
-- **Simplicity First**: Clean, maintainable code by default
-- **Human-Centric**: AI amplifies, never replaces your creativity
-- **Pragmatic Choices**: Real-world solutions, not academic exercises
-
-### 📚 **Smart Context Management**
-
-Feed AI the right information at the right time:
-
-- `ai_context/` - Store persistent reference docs
-- `ai_working/` - Workspace for AI planning and iteration
-- Auto-generate project documentation
-- Fetch external library docs on demand
-
-### 🛠️ **Production-Ready Setup**
-
-- Python/TypeScript pre-configured with modern tools
-- Recursive Make system for monorepos
-- Git-ignored temp spaces for experimentation
-- Cross-platform compatibility guaranteed
-
-## 📦 Complete Feature List
-
-### **AI Amplification**
-
-- ✅ `/ultrathink-task` - Multi-agent orchestration for complex problems
-- ✅ `/prime` - Philosophy-aligned environment setup
-- ✅ `/test-webapp-ui` - Automated UI testing with browser control
-- ✅ MCP Servers - Extended capabilities (docs lookup, browser automation)
-- ✅ Custom command framework - Build your own workflows
-
-### **Developer Experience**
-
-- ✅ Desktop notifications - Stay in flow (all platforms)
-- ✅ Auto quality checks - Format, lint, type-check automatically
-- ✅ Smart Make system - Works with monorepos
-- ✅ Pre-configured permissions - Security with productivity
-- ✅ Philosophy documents - Guide AI to code your way
-
-### **Context & Workspace**
-
-- ✅ AI context tools - Generate and manage documentation
-- ✅ Git collector - Fetch external library docs
-- ✅ Working spaces - Persistent and temporary AI workspaces
-- ✅ File collectors - Smart project documentation generation
-
-## 🚀 Quick Start Guide
-
-### Prerequisites
-
-- An AI assistant with CLI capabilities:
-  - [Claude Code](https://claude.ai/code)
-  - [Gemini CLI](https://developers.google.com/gemini/cli)
-- Python 3.11+ or Node.js 18+
-- Git
-
-### 1. Create Your Project
-
-1.  Click the **Use this template** button on the GitHub repository page.
-2.  Give your new repository a name and create it.
-3.  Clone your new repository to your local machine:
+## Quick Setup
 
 ```bash
-git clone https://github.com/[your-username]/[your-new-repo-name].git
-cd [your-new-repo-name]
+# Install dependencies
+make install
+
+# Configure API key (choose one method)
+export GEMINI_API_KEY="your_key_here"
+# OR copy .env.example to .env and edit it
+cp .env.example .env
 ```
 
-### 2. First AI Assistant Session
+## Try It Now
 
-```
-# In your AI assistant, use the command:
-/prime
-
-# This will:
-# - Install all dependencies
-# - Activate your environment
-# - Load philosophy documents
-# - Run initial checks
-# - Confirm everything works
+**Generate your first image:**
+```bash
+# Generate a character reference image
+uv run imagen_lab generate "Close-up portrait of a stoic, handsome Black man with short hair and stubble. Cyberpunk style, dramatic lighting."
 ```
 
-### 3. Try Your First Task
+**Generate your first video:**
+```bash
+# Simple video from text prompt
+uv run -m veo_lab.simple --prompt "Hooded figure studies glowing sigils on server racks, cyberpunk noir, mysterious"
 
-```
-/ultrathink-task Create a simple web API that:
-- Has a health check endpoint
-- Stores data in memory
-- Returns JSON responses
-- Includes proper error handling
-- Has tests
-
-Follow our philosophy of simplicity and pragmatism.
+# Or with Veo 3 (limited rate limits)
+uv run -m veo_lab.simple --prompt "Hooded figure studies glowing sigils on server racks, cyberpunk noir, mysterious" --model veo-3.0-generate-preview
 ```
 
-Watch as multiple AI agents collaborate to build your API with tests, error handling, and documentation.
+**Complete pipeline example:**
+```bash
+# 1. Generate reference image
+uv run imagen_lab generate "$(cat examples/characters/cyber_witch.txt)" --output examples/characters/generated/cyber_witch --name cyber_witch
 
-### 4. Experience the Flow
-
-Make any code change and watch:
-
-- 🔔 Desktop notification when complete
-- ✅ Automatic quality checks run
-- 📝 Clear feedback in your terminal
-- 🎯 Stay focused on your next idea
-
-## 📖 User Guides
-
-### 🎨 For Product Managers
-
-**Your New Superpower: Prototype at the Speed of Thought**
-
-```
-/ultrathink-task I need a dashboard that shows:
-- User growth over time with a nice chart
-- Current active users in real-time
-- Revenue metrics with month-over-month change
-- Mobile responsive design
-- Export to PDF functionality
-
-Make it look professional but keep it simple.
+# 2. Create video using the reference  
+uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
 ```
 
-**What Happens Next:**
+All outputs are saved to `out/` with automatic organization by date and time. Check `out/latest/` for your most recent generation.
 
-1. Architect designs the component structure
-2. Research finds best charting libraries
-3. Coder implements with your requirements
-4. Tester ensures it all works
-5. You get a working dashboard in minutes
+## Configuration & Testing
 
-**Pro Tips:**
+### Environment Variables
 
-- Drop mockups in `ai_working/` for reference
-- Use `/test-webapp-ui` to see it in action
-- Iterate with natural language: "Make the charts bigger"
-
-### 👩‍💻 For Engineers
-
-**Your New Reality: Deep Work Without Interruptions**
+Control default models without specifying them in every command:
 
 ```bash
-# Set up context for your feature
-echo "API Schema: ..." > ai_context/api-spec.md
-echo "Database Models: ..." > ai_context/models.md
+# Copy and edit the example environment file
+cp .env.example .env
 
-# Let AI help with implementation
-/ultrathink-task Implement the user authentication system based on:
-@ai_context/api-spec.md
-@ai_context/models.md
-
-Use JWT tokens, include refresh logic, and add rate limiting.
+# Set your preferred defaults
+export VEO_MODEL=veo-3.0-generate-preview        # For video generation
+export IMAGEN_MODEL=imagen-3.0-fast-generate-001 # For image generation  
 ```
 
-**Automation That Backs You Up:**
+Model selection precedence:
+1. Explicit `--model` argument (highest priority)
+2. Environment variable (`VEO_MODEL` or `IMAGEN_MODEL`) 
+3. Default model (lowest priority)
 
-- Every save triggers quality checks
-- Desktop notifications for important events
-- Philosophy guides ensure consistent code style
-- Context persistence across sessions
+### Dry Run Mode
 
-**Level Up Your Workflow:**
-
-1. Create custom commands for repetitive tasks
-2. Add project-specific hooks for your stack
-3. Share configs with your team via Git
-
-### 🏗️ For Architects
-
-**Your New Platform: Scalable AI-Assisted Development**
+Test prompts and validate configuration without consuming API quota:
 
 ```bash
-# Create team-wide commands
-# For Claude Code:
-cat > .claude/commands/create-microservice.md << 'EOF'
-## Usage
-`/create-microservice <service-name>`
+# Test image generation setup
+uv run imagen_lab generate "cyberpunk character portrait" --dry
 
-## Process
-1. Create service directory structure
-2. Set up Docker configuration
-3. Create base API with health checks
-4. Set up testing framework
-5. Add to docker-compose
-6. Create README with setup instructions
-EOF
+# Shows what would be generated:
+# • Model: imagen-3.0-generate-001
+# • Output directory: out/2025-08-18/120506_imagen_cyberpunk_character_portrait  
+# • Files: image.jpg, prompt.txt, metadata.json
+# ✅ Dry run complete - no API calls made
 
-# For Gemini CLI:
-cat > .gemini/commands/create-microservice.toml << 'EOF'
-description = "Create a new microservice"
-prompt = """
-## Usage
-`/create-microservice <service-name>`
+# Test with custom model
+uv run imagen_lab generate "test prompt" --model imagen-3.0-fast-generate-001 --dry
 
-## Process
-1. Create service directory structure
-2. Set up Docker configuration
-3. Create base API with health checks
-4. Set up testing framework
-5. Add to docker-compose
-6. Create README with setup instructions
-"""
-EOF
-
-# Share with your team
-git add .claude/ .gemini/
-git commit -m "Add team microservice generator"
-git push
+# Test with environment variable  
+IMAGEN_MODEL=custom-model uv run imagen_lab generate "test prompt" --dry
 ```
 
-**Build Your Platform:**
+Dry-run is perfect for:
+- **Validating environment variables** work correctly
+- **Testing prompt files** and templates before spending quota  
+- **Debugging CLI arguments** without API costs
+- **Development and scripting** workflows
 
-- Encode architectural decisions in commands
-- Automate compliance and standards
-- Share expertise through configuration
-- Scale your impact across teams
+## More Examples
 
-## 🧠 The Philosophy
+For comprehensive examples and all available scripts, see:
 
-This template embodies a philosophy of **"Human Creativity, AI Velocity"**:
+- **[examples/README.md](examples/README.md)** - Quick-start examples you can run immediately
+- **[docs/examples/](docs/examples/)** - Detailed guides for all 7 video generation scripts  
+- **[ai_working/VALIDATION_GUIDE.md](ai_working/VALIDATION_GUIDE.md)** - Test your setup step-by-step
 
-### Core Principles
+## How It Works
 
-1. **You Are The Visionary**
+Veo 3 generates ~8 second video clips from text prompts. For longer content, multiple clips can be stitched together. The toolkit provides several approaches:
 
-   - AI handles implementation details
-   - You focus on what to build, not how
-   - Your creativity remains uniquely yours
+- **Single videos** from text descriptions
+- **Sequential chains** using the last frame of each video as the starting point for the next
+- **Multi-shot storyboards** with rich metadata and automatic concatenation
+- **Systematic variations** to test different approaches to the same concept
 
-2. **Philosophy Over Process**
+All outputs are automatically organized by date and time with descriptive filenames that include parts of your prompt.
 
-   - Principles guide every decision
-   - Simplicity beats complexity
-   - Pragmatism over perfection
+## Development
 
-3. **Flow State Is Sacred**
+This project follows the principles outlined in `AGENTS.md`. The codebase uses a modular, AI-friendly architecture designed for rapid experimentation and regeneration.
 
-   - No unnecessary interruptions
-   - Automation handles the mundane
-   - Notifications only when essential
+### Build Commands
 
-4. **Built To Share**
-   - Your setup helps your team
-   - Knowledge embedded in tools
-   - Success patterns spread naturally
+- Install dependencies: `make install`
+- Run all checks: `make check`
+- Run all tests: `make test`
 
-Read more in [Philosophy Deep Dive](.ai/docs/philosophy.md)
+### Project Organization
 
-## 🎯 Real-World Usage Patterns
+- **`examples/`** - Quick-start examples for both image and video generation
+- **`docs/examples/`** - Comprehensive guides for all generation tools
+- **`user_prompts/`** - Save your personal experiments here (git-ignored)  
+- **`out/`** - Generated images and videos, automatically organized by date/time
+- **`src/veo_lab/`** - Core video generation modules
+- **`src/imagen_lab/`** - Core image generation and analysis modules
 
-### Starting a New Feature
+## Personal Experiments
 
-```bash
-# 1. Set up context
-mkdir -p ai_working/feature-x
-echo "Feature requirements..." > ai_working/feature-x/spec.md
+Save your own prompts and configurations in `user_prompts/` - this folder is git-ignored so your experiments stay private. See [user_prompts/README.md](user_prompts/README.md) for organization tips.
 
-# 2. Prime your environment
-/prime
+## AI-Assisted Development
 
-# 3. Build with guidance
-/ultrathink-task Implement feature X based on @ai_working/feature-x/spec.md
-```
+This template includes powerful AI development tools:
 
-### Debugging Complex Issues
+- `/prime` - Set up environment and load project philosophy
+- Context management in `ai_context/` for persistent reference docs
+- Modular design philosophy optimized for AI-driven development
 
-```bash
-# 1. Capture the problem
-echo "Error details..." > ai_working/tmp/debug-notes.md
-
-# 2. Analyze systematically
-/ultrathink-task Debug this issue:
-- Error: [paste error]
-- Context: @ai_working/tmp/debug-notes.md
-- Check our patterns in @ai_context/IMPLEMENTATION_PHILOSOPHY.md
-```
-
-### Building UI Components
-
-```bash
-# 1. Describe what you want
-/ultrathink-task Create a data table component that:
-- Handles large datasets efficiently
-- Has sorting and filtering
-- Exports to CSV
-- Looks good on mobile
-
-# 2. Test it immediately
-/test-webapp-ui
-
-# 3. Iterate quickly
-Actually, add pagination and make the rows clickable
-```
-
-## 🔧 Customization
-
-### Add Your Philosophy
-
-1. Edit `ai_context/IMPLEMENTATION_PHILOSOPHY.md`
-2. Add domain-specific principles
-3. Include coding standards
-4. Document decision patterns
-
-### Create Custom Commands
-
-- Create `.claude/commands/your-command.md` for Claude Code
-  - https://docs.anthropic.com/en/docs/claude-code/slash-commands#project-commands
-- Create `.gemini/commands/your-command.toml` for Gemini
-  - https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/commands.md#custom-commands
-
-See existing commands for examples
-
-### Configure Notifications [Claude Code only]
-
-- Edit `.claude/tools/notify.sh` for custom messages
-- Adjust notification triggers in settings
-- Add sound alerts if desired
-
-### Extend Automation [Claude Code only]
-
-In `.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "YourCustomTool",
-        "hooks": [{ "command": "your-script.sh" }]
-      }
-    ]
-  }
-}
-```
-
-## 📚 Learn More
-
-### Deep Dives
-
-- [Command Reference](.ai/docs/commands.md) - All commands explained
-- [Automation Guide](.ai/docs/automation.md) - Hooks and quality checks
-- [Context Management](.ai/docs/ai-context.md) - Feeding AI effectively
-- [Philosophy Guide](.ai/docs/philosophy.md) - Why this approach works
-
-## 🚀 Start Your Journey
-
-You're 5 minutes away from developing at a new level. Your creativity, amplified by AI, guided by philosophy, and backed by automation.
-
-**The future of development isn't about AI replacing developers.**
-**It's about developers achieving what was previously impossible.**
-
-Welcome to AI-amplified development. Let's build something amazing.
-
----
-
-Made with ❤️ by developers, for developers
-
-Star this repo if it helps you build faster
+The project embraces AI-assisted development while maintaining human creativity and architectural vision.
