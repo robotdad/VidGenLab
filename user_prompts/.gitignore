@@ -1,0 +1,4 @@
+# Ignore all user experiments except this README
+*
+!README.md
+!.gitignore
