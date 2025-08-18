@@ -1,0 +1,12 @@
+# Ignore generated images - these are created by imagen_lab but shouldn't be committed
+*.jpg
+*.jpeg
+*.png
+
+# Ignore all contents of generated directories but keep the directories themselves
+characters/generated/*
+references/generated/*
+
+# Keep .gitkeep files to preserve directory structure
+!characters/generated/.gitkeep
+!references/generated/.gitkeep
