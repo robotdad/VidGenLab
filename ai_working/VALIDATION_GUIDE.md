@@ -138,13 +138,17 @@ uv run -m veo_lab.shot_chain --file examples/chain_demo.yml --dry
 
 # Real generation (expect 90+ seconds due to rate limiting)
 uv run -m veo_lab.shot_chain --file examples/chain_demo.yml
+
+# Optional: concatenate into single video
+uv run -m veo_lab.shot_chain --file examples/chain_demo.yml --concat chain_complete.mp4
 ```
 
 **Check Output**:
 
 - Single session directory with sequential videos: `01_*.mp4`, `02_*.mp4`, `03_*.mp4`
 - Frame extracts: `01_*.last.jpg`, `02_*.last.jpg`, `03_*.last.jpg`
-- Metadata shows all 3 files in the session
+- If `--concat` used: concatenated video (e.g., `chain_complete.mp4`)
+- Metadata shows all files in the session
 
 ---
 

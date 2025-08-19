@@ -7,6 +7,7 @@ import typer
 import yaml
 
 from .common import OUT
+from .common import concat_videos_concat_demuxer
 from .common import create_client
 from .common import create_session_directory
 from .common import generate_video
@@ -19,6 +20,7 @@ app = typer.Typer(add_completion=False, no_args_is_help=True)
 def run(
     file: pathlib.Path = typer.Option(..., "--file", "-f"),
     output: pathlib.Path = typer.Option(OUT, "--out"),
+    concat: str | None = typer.Option(None, "--concat", help="Concatenate videos into single file"),
 ):
     data = yaml.safe_load(file.read_text(encoding="utf-8"))
     prompts: list[str] = data.get("prompts", [])
@@ -51,6 +53,12 @@ def run(
         if res.thumb:
             last_ref = image_from_file(res.thumb)
     print(f"✅ Completed {len(outs)} clips -> {session_dir}")
+
+    # Concatenate if requested
+    if concat:
+        concat_path = session_dir / concat
+        concat_videos_concat_demuxer(outs, concat_path)
+        print(f"🎬 Concatenated {len(outs)} videos -> {concat_path}")
 
 
 if __name__ == "__main__":
