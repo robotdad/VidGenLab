@@ -21,10 +21,27 @@ def run(
     storyboard: pathlib.Path = typer.Option(..., "--storyboard", "-s"),
     output_dir: pathlib.Path = typer.Option(OUT, "--out"),
     concat_to: pathlib.Path | None = typer.Option(None, "--concat"),
+    dry: bool = typer.Option(
+        False, "--dry", help="Show what would be generated without calling API"
+    ),
 ):
     data: dict = json.loads(storyboard.read_text(encoding="utf-8"))
     shots: list[dict] = data.get("shots", [])
     assert shots, "no shots found"
+
+    if dry:
+        print(f"🔍 Dry run - storyboard with {len(shots)} shots:")
+        for idx, shot in enumerate(shots, start=1):
+            prompt = shot["prompt"]
+            negative = shot.get("negative", "")
+            print(f"  Shot {idx}: {prompt[:50]}...")
+            if negative:
+                print(f"    Negative: {negative}")
+        if concat_to:
+            print(f"  Would concatenate to: {concat_to}")
+        print("✅ Dry run complete - no API calls made")
+        return
+
     client = create_client()
 
     # Create a single session directory for the entire storyboard

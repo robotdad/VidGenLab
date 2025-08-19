@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 
 import typer
@@ -33,6 +34,9 @@ def run(
     list_models_flag: bool = typer.Option(
         False, "--list-models", help="List known model ids and current default"
     ),
+    dry: bool = typer.Option(
+        False, "--dry", help="Show what would be generated without calling API"
+    ),
 ):
     """
     one-shot video generation: send a prompt (and optional negative/ref image) to veo 3.
@@ -43,6 +47,18 @@ def run(
     if not prompt and not prompt_file:
         raise typer.BadParameter("provide --prompt or --prompt-file")
     text = prompt or prompt_file.read_text(encoding="utf-8").strip()
+
+    if dry:
+        picked_model = model or os.environ.get("VEO_MODEL") or "veo-2.0-generate-001"
+        print("🔍 Dry run - single video generation:")
+        print(f"  • Prompt: {text[:50]}...")
+        print(f"  • Model: {picked_model}")
+        print(f"  • Negative: {negative}" if negative else "  • No negative prompt")
+        print(f"  • Reference image: {image}" if image else "  • No reference image")
+        print(f"  • Output directory: {out}")
+        print("✅ Dry run complete - no API calls made")
+        return
+
     client = create_client()
     img = image_from_file(image) if image else None
     res = generate_video(

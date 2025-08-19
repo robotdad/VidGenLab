@@ -21,10 +21,23 @@ def run(
     file: pathlib.Path = typer.Option(..., "--file", "-f"),
     output: pathlib.Path = typer.Option(OUT, "--out"),
     concat: str | None = typer.Option(None, "--concat", help="Concatenate videos into single file"),
+    dry: bool = typer.Option(
+        False, "--dry", help="Show what would be generated without calling API"
+    ),
 ):
     data = yaml.safe_load(file.read_text(encoding="utf-8"))
     prompts: list[str] = data.get("prompts", [])
     assert prompts, "no prompts found"
+
+    if dry:
+        print(f"🔍 Dry run - shot chain with {len(prompts)} prompts:")
+        for idx, prompt in enumerate(prompts, start=1):
+            print(f"  Shot {idx}: {prompt[:50]}...")
+        if concat:
+            print(f"  Would concatenate to: {concat}")
+        print("✅ Dry run complete - no API calls made")
+        return
+
     client = create_client()
 
     # Create a single session directory for the entire chain

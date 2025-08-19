@@ -20,7 +20,33 @@ def run(
     imagen_prompts_file: pathlib.Path | None = typer.Option(None, "--imagen-prompts"),
     k: int = typer.Option(3),
     output: pathlib.Path = typer.Option(OUT, "--out"),
+    dry: bool = typer.Option(
+        False, "--dry", help="Show what would be generated without calling API"
+    ),
 ):
+    if dry:
+        print(f"🔍 Dry run - character pack with {k} references:")
+        print(f"  • Scene prompt: {scene_prompt[:50]}...")
+        if ref_dir:
+            paths = sorted(
+                [
+                    p
+                    for p in pathlib.Path(ref_dir).glob("*")
+                    if p.suffix.lower() in {".jpg", ".jpeg", ".png"}
+                ]
+            )[:k]
+            print(f"  • Reference directory: {ref_dir} ({len(paths)} images)")
+        elif imagen_prompts_file:
+            lines = [
+                ln.strip()
+                for ln in imagen_prompts_file.read_text(encoding="utf-8").splitlines()
+                if ln.strip()
+            ]
+            print(f"  • Imagen prompts file: {imagen_prompts_file} ({len(lines[:k])} prompts)")
+        print(f"  • Output directory: {output}")
+        print("✅ Dry run complete - no API calls made")
+        return
+
     client = create_client()
     refs: list = []
     if ref_dir:
