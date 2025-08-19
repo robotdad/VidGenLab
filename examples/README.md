@@ -152,6 +152,10 @@ uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat
 ### Template Matrix (`prompt_matrix`)
 
 ```bash
+# Test matrix combinations (4 videos)
+uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml --dry
+
+# Real generation (expect ~90 seconds due to rate limiting)
 uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml
 ```
 

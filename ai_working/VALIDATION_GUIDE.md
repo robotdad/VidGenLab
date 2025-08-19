@@ -181,17 +181,16 @@ uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat
 ### 4. Prompt Matrix Script ✓
 
 **Purpose**: Generate all combinations of template variables
-**Expected**: 8 videos (2×2×2×2 combinations)
+**Expected**: 4 videos (2×2×1×1×1×1 combinations)
 
-**⚠️ RATE LIMIT WARNING**: This script generates 8 videos with 30-second delays = ~210 seconds total (~3.5 minutes)
+**⚠️ RATE LIMIT WARNING**: This script generates 4 videos with 30-second delays = ~90 seconds total
 
 ```bash
 # Test first with dry run to see all combinations
 uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml --dry
 
-# Real generation (expect 3.5+ minutes due to rate limiting)
+# Real generation (expect 90+ seconds due to rate limiting)
 uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml
-```
 
 **Check Output**:
 

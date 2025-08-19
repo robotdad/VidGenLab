@@ -1,26 +1,15 @@
 matrix:
-  personnel:
-    - D-20384 male test subject with exploration equipment
-    - D-54493 female test subject with documentation materials
-    - security officer monitoring containment protocols
-    - site technician maintaining mirror array systems
-  location:
-    - sterile mirror containment chamber
-    - concrete tunnel with failing ceiling lights
-    - abandoned downtown district with raised expressways
-    - green-tinged farmland with rotted scarecrow
-  scenario:
-    - red sea object activation sequence
-    - dimensional portal opening procedure
-    - otherworld exploration documentation
-    - anomalous entity observation protocol
-  disc_state:
-    - dormant red carved stone on mirror surface
-    - color-changing when touched by test subject
-    - portal stabilization with dimensional distortions
-    - multiple discs in control room array
-  atmosphere:
-    - clinical institutional documentation style
-    - building tension and dread discovery
-    - professional anomalous containment procedures
-    - scale-defying horror realization
+  subject:
+    - D-Class personnel in orange jumpsuit
+    - security officer in tactical gear
+  action:
+    - approaches the Red Sea Object on mirror surface
+    - holds the Red Sea Object in hand and pushes it into the mirror
+  style:
+    - clinical documentation with sterile lighting
+  camera:
+    - medium shot pushing to close-up of disc
+  ambience:
+    - sterile laboratory with monitoring equipment
+  audio:
+    - subtle electronic beeps and containment hum
