@@ -199,7 +199,12 @@ class TestWorkflowIntegration:
 
             # Execute character pack
             character_pack_run(
-                scene_prompt="test scene", ref_dir=ref_dir, k=2, output=temp_dir, dry=False
+                scene_prompt="test scene",
+                ref_dir=ref_dir,
+                k=2,
+                output=temp_dir,
+                model="veo-2.0-generate-001",
+                dry=False,
             )
 
             # Verify workflow
@@ -248,7 +253,13 @@ prompts:
             mock_image_from_file.return_value = Mock()
 
             # Execute shot chain
-            shot_chain_run(file=chain_config, output=temp_dir, concat=None, dry=False)
+            shot_chain_run(
+                file=chain_config,
+                output=temp_dir,
+                concat=None,
+                model="veo-2.0-generate-001",
+                dry=False,
+            )
 
             # Verify workflow
             assert mock_generate_video.call_count == 3

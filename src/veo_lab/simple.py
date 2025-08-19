@@ -48,8 +48,12 @@ def run(
         raise typer.BadParameter("provide --prompt or --prompt-file")
     text = prompt or prompt_file.read_text(encoding="utf-8").strip()
 
+    # Model selection
+    picked_model = model or os.environ.get("VEO_MODEL")
+    if not picked_model:
+        raise typer.BadParameter("Specify --model or set VEO_MODEL environment variable")
+
     if dry:
-        picked_model = model or os.environ.get("VEO_MODEL") or "veo-2.0-generate-001"
         print("🔍 Dry run - single video generation:")
         print(f"  • Prompt: {text[:50]}...")
         print(f"  • Model: {picked_model}")
@@ -62,7 +66,13 @@ def run(
     client = create_client()
     img = image_from_file(image) if image else None
     res = generate_video(
-        client, text, negative=negative, image=img, out_dir=out, script_name="simple", model=model
+        client,
+        text,
+        negative=negative,
+        image=img,
+        out_dir=out,
+        script_name="simple",
+        model=picked_model,
     )
     print(res.path)
 

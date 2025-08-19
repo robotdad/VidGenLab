@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import pathlib
 import time
 
@@ -20,10 +21,20 @@ def run(
     imagen_prompts_file: pathlib.Path | None = typer.Option(None, "--imagen-prompts"),
     k: int = typer.Option(3),
     output: pathlib.Path = typer.Option(OUT, "--out"),
+    model: str | None = typer.Option(
+        None,
+        "--model",
+        help="Veo model id (e.g. veo-3.0-generate-preview, veo-3.0-fast-generate-preview, veo-2.0-generate-001)",
+    ),
     dry: bool = typer.Option(
         False, "--dry", help="Show what would be generated without calling API"
     ),
 ):
+    # Model selection
+    picked_model = model or os.environ.get("VEO_MODEL")
+    if not picked_model:
+        raise typer.BadParameter("Specify --model or set VEO_MODEL environment variable")
+
     if dry:
         print(f"🔍 Dry run - character pack with {k} references:")
         print(f"  • Scene prompt: {scene_prompt[:50]}...")
@@ -43,6 +54,7 @@ def run(
                 if ln.strip()
             ]
             print(f"  • Imagen prompts file: {imagen_prompts_file} ({len(lines[:k])} prompts)")
+        print(f"  • Model: {picked_model}")
         print(f"  • Output directory: {output}")
         print("✅ Dry run complete - no API calls made")
         return
@@ -82,7 +94,12 @@ def run(
 
         print(f"🎬 Generating video {i}/{len(refs)} with character reference...")
         res = generate_video(
-            client, scene_prompt, image=ref, out_dir=output, name_prefix=f"pack{i:02d}-"
+            client,
+            scene_prompt,
+            image=ref,
+            out_dir=output,
+            name_prefix=f"pack{i:02d}-",
+            model=picked_model,
         )
         outs.append(res.path)
     print(f"✅ Completed {len(outs)} clips -> {output}")

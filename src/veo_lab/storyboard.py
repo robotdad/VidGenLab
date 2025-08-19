@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import time
 
@@ -21,6 +22,11 @@ def run(
     storyboard: pathlib.Path = typer.Option(..., "--storyboard", "-s"),
     output_dir: pathlib.Path = typer.Option(OUT, "--out"),
     concat_to: pathlib.Path | None = typer.Option(None, "--concat"),
+    model: str | None = typer.Option(
+        None,
+        "--model",
+        help="Veo model id (e.g. veo-3.0-generate-preview, veo-3.0-fast-generate-preview, veo-2.0-generate-001)",
+    ),
     dry: bool = typer.Option(
         False, "--dry", help="Show what would be generated without calling API"
     ),
@@ -28,6 +34,11 @@ def run(
     data: dict = json.loads(storyboard.read_text(encoding="utf-8"))
     shots: list[dict] = data.get("shots", [])
     assert shots, "no shots found"
+
+    # Model selection
+    picked_model = model or os.environ.get("VEO_MODEL")
+    if not picked_model:
+        raise typer.BadParameter("Specify --model or set VEO_MODEL environment variable")
 
     if dry:
         print(f"🔍 Dry run - storyboard with {len(shots)} shots:")
@@ -37,6 +48,7 @@ def run(
             print(f"  Shot {idx}: {prompt[:50]}...")
             if negative:
                 print(f"    Negative: {negative}")
+        print(f"  • Model: {picked_model}")
         if concat_to:
             print(f"  Would concatenate to: {concat_to}")
         print("✅ Dry run complete - no API calls made")
@@ -46,7 +58,7 @@ def run(
 
     # Create a single session directory for the entire storyboard
     first_shot = shots[0]["prompt"] if shots else "storyboard"
-    session_dir = create_session_directory("storyboard", first_shot, output_dir)
+    session_dir = create_session_directory("storyboard", first_shot, output_dir, picked_model)
 
     prev_last_ref = None
     clip_paths: list[pathlib.Path] = []
@@ -73,6 +85,7 @@ def run(
             script_name="storyboard",
             sequence_num=idx,
             session_dir=session_dir,
+            model=picked_model,
         )
         clip_paths.append(res.path)
         # Use the thumbnail that was already created

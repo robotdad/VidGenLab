@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import pathlib
 import time
 
@@ -21,6 +22,11 @@ def run(
     file: pathlib.Path = typer.Option(..., "--file", "-f"),
     output: pathlib.Path = typer.Option(OUT, "--out"),
     concat: str | None = typer.Option(None, "--concat", help="Concatenate videos into single file"),
+    model: str | None = typer.Option(
+        None,
+        "--model",
+        help="Veo model id (e.g. veo-3.0-generate-preview, veo-3.0-fast-generate-preview, veo-2.0-generate-001)",
+    ),
     dry: bool = typer.Option(
         False, "--dry", help="Show what would be generated without calling API"
     ),
@@ -29,10 +35,16 @@ def run(
     prompts: list[str] = data.get("prompts", [])
     assert prompts, "no prompts found"
 
+    # Model selection
+    picked_model = model or os.environ.get("VEO_MODEL")
+    if not picked_model:
+        raise typer.BadParameter("Specify --model or set VEO_MODEL environment variable")
+
     if dry:
         print(f"🔍 Dry run - shot chain with {len(prompts)} prompts:")
         for idx, prompt in enumerate(prompts, start=1):
             print(f"  Shot {idx}: {prompt[:50]}...")
+        print(f"  • Model: {picked_model}")
         if concat:
             print(f"  Would concatenate to: {concat}")
         print("✅ Dry run complete - no API calls made")
@@ -42,7 +54,7 @@ def run(
 
     # Create a single session directory for the entire chain
     first_prompt = prompts[0] if prompts else "chain"
-    session_dir = create_session_directory("shot_chain", first_prompt, output)
+    session_dir = create_session_directory("shot_chain", first_prompt, output, picked_model)
 
     last_ref = None
     outs = []
@@ -60,6 +72,7 @@ def run(
             script_name="shot_chain",
             sequence_num=i,
             session_dir=session_dir,
+            model=picked_model,
         )
         outs.append(res.path)
         # Use the thumbnail that was already created
