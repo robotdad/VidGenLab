@@ -45,22 +45,22 @@ cp .env.example .env
 **Generate your first image:**
 ```bash
 # Generate a character reference image
-uv run imagen_lab generate "Close-up portrait of a stoic, handsome Black man with short hair and stubble. Cyberpunk style, dramatic lighting."
+uv run imagen_lab generate "Professional headshot of a D-Class personnel in orange jumpsuit, institutional lighting, clinical documentation style"
 ```
 
 **Generate your first video:**
 ```bash
 # Simple video from text prompt
-uv run -m veo_lab.simple --prompt "Hooded figure studies glowing sigils on server racks, cyberpunk noir, mysterious"
+uv run -m veo_lab.simple --prompt "Subject: small carved red stone disc lying flat on mirror surface, Action: hand reaches down to pick it up, Style: clinical documentation with building tension"
 
 # Or with Veo 3 (limited rate limits)
-uv run -m veo_lab.simple --prompt "Hooded figure studies glowing sigils on server racks, cyberpunk noir, mysterious" --model veo-3.0-generate-preview
+uv run -m veo_lab.simple --prompt "Subject: small carved red stone disc lying flat on mirror surface, Action: hand reaches down to pick it up, Style: clinical documentation with building tension" --model veo-3.0-generate-preview
 ```
 
 **Complete pipeline example:**
 ```bash
 # 1. Generate reference image
-uv run imagen_lab generate "$(cat examples/characters/cyber_witch.txt)" --output examples/characters/generated/cyber_witch --name cyber_witch
+uv run imagen_lab generate "$(cat examples/characters/d_class_20384.txt)" --output examples/characters/generated/d_class_20384 --name d_class_20384
 
 # 2. Create video using the reference  
 uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
@@ -80,7 +80,7 @@ cp .env.example .env
 
 # Set your preferred defaults
 export VEO_MODEL=veo-3.0-generate-preview        # For video generation
-export IMAGEN_MODEL=imagen-3.0-fast-generate-001 # For image generation  
+export IMAGEN_MODEL=imagen-3.0-generate-002      # For image generation  
 ```
 
 Model selection precedence:
@@ -94,12 +94,12 @@ Test prompts and validate configuration without consuming API quota:
 
 ```bash
 # Test image generation setup
-uv run imagen_lab generate "cyberpunk character portrait" --dry
+uv run imagen_lab generate "D-Class personnel in containment facility" --dry
 
 # Shows what would be generated:
-# • Model: imagen-3.0-generate-001
-# • Output directory: out/2025-08-18/120506_imagen_cyberpunk_character_portrait  
-# • Files: image.jpg, prompt.txt, metadata.json
+# • Model: imagen-3.0-generate-002
+# • Output directory: out/2025-08-19/120506_imagen_3.0-002_d_class_personnel  
+# • Files: d_class_personnel.jpg, prompt.txt, metadata.json
 # ✅ Dry run complete - no API calls made
 
 # Test with custom model
@@ -152,6 +152,10 @@ This project follows the principles outlined in `AGENTS.md`. The codebase uses a
 - **`out/`** - Generated images and videos, automatically organized by date/time
 - **`src/veo_lab/`** - Core video generation modules
 - **`src/imagen_lab/`** - Core image generation and analysis modules
+
+## Example Themes
+
+The included examples use a clinical documentation aesthetic inspired by dimensional research facilities. Characters include D-Class personnel, security officers, and site technicians in institutional settings. Extended examples in `user_prompts/scp_093_extras/` explore dimensional portal themes with concrete tunnels, abandoned cities, and farmland exploration.
 
 ## Personal Experiments
 

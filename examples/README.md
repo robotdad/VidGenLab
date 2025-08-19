@@ -9,19 +9,19 @@ Quick-start examples for both image generation and video generation.
 1. **Generate your first image**:
 
    ```bash
-   uv run imagen_lab generate "Portrait of a cyberpunk character with neon lighting, dramatic atmosphere"
+   uv run imagen_lab generate "Professional headshot of D-Class personnel in orange jumpsuit, institutional lighting, clinical documentation style"
    ```
 
 2. **Test with dry-run first** (no API costs):
 
    ```bash
-   uv run imagen_lab generate "Portrait of a cyberpunk character with neon lighting, dramatic atmosphere" --dry
+   uv run imagen_lab generate "Professional headshot of D-Class personnel in orange jumpsuit, institutional lighting, clinical documentation style" --dry
    ```
 
 3. **Create character references from prompts**:
 
    ```bash
-   uv run imagen_lab generate "$(cat examples/characters/cyber_witch.txt)" --output examples/characters/generated/cyber_witch --name cyber_witch
+   uv run imagen_lab generate "$(cat examples/characters/d_class_20384.txt)" --output examples/characters/generated/d_class_20384 --name d_class_20384
    ```
 
 ### Video Generation
@@ -29,7 +29,7 @@ Quick-start examples for both image generation and video generation.
 1. **Try inline prompts** (simplest):
 
    ```bash
-   uv run -m veo_lab.simple --prompt "Cloaked figure traces glowing symbols, cyberpunk occult atmosphere"
+   uv run -m veo_lab.simple --prompt "Subject: small carved red stone disc lying flat on mirror, Action: hand reaches down to pick it up, Style: clinical documentation"
    ```
 
 2. **Use prompt files** for longer/reusable prompts:
@@ -42,7 +42,7 @@ Quick-start examples for both image generation and video generation.
 
    ```bash
    # Generate reference, then create video using it
-   uv run imagen_lab generate "$(cat examples/characters/digital_monk.txt)" --output examples/characters/generated/digital_monk --name digital_monk
+   uv run imagen_lab generate "$(cat examples/characters/security_officer.txt)" --output examples/characters/generated/security_officer --name security_officer
    uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
    ```
 
@@ -56,13 +56,13 @@ Quick-start examples for both image generation and video generation.
 
 ```bash
 # Simple generation
-uv run imagen_lab generate "Digital art of a futuristic cityscape at night, neon lights, cyberpunk style"
+uv run imagen_lab generate "Sterile containment facility with monitoring equipment, clinical documentation style"
 
 # With custom output location
-uv run imagen_lab generate "Portrait of a wise wizard" --output my_images/wizard --name wizard_portrait
+uv run imagen_lab generate "Portrait of site technician in laboratory coat" --output my_images/technician --name site_technician
 
-# Different models (check available models with veo_lab for now)
-uv run imagen_lab generate "Landscape painting" --model imagen-3.0-generate-001
+# Different models (check available models)
+uv run imagen_lab generate "Concrete tunnel entrance" --model imagen-3.0-fast-generate-001
 ```
 
 ### Image Analysis
@@ -81,13 +81,13 @@ Generate character references from text prompts, then test them with the same sc
 
 ```bash
 # First, test with dry-run to validate prompts
-uv run imagen_lab generate "$(cat examples/characters/cyber_witch.txt)" --output examples/characters/generated/cyber_witch --name cyber_witch --dry
+uv run imagen_lab generate "$(cat examples/characters/d_class_20384.txt)" --output examples/characters/generated/d_class_20384 --name d_class_20384 --dry
 
 # Generate all provided character references
-uv run imagen_lab generate "$(cat examples/characters/cyber_witch.txt)" --output examples/characters/generated/cyber_witch --name cyber_witch
-uv run imagen_lab generate "$(cat examples/characters/digital_monk.txt)" --output examples/characters/generated/digital_monk --name digital_monk
-uv run imagen_lab generate "$(cat examples/characters/hooded_cybermancer.txt)" --output examples/characters/generated/hooded_cybermancer --name hooded_cybermancer
-uv run imagen_lab generate "$(cat examples/characters/neon_occultist.txt)" --output examples/characters/generated/neon_occultist --name neon_occultist
+uv run imagen_lab generate "$(cat examples/characters/d_class_20384.txt)" --output examples/characters/generated/d_class_20384 --name d_class_20384
+uv run imagen_lab generate "$(cat examples/characters/d_class_54493.txt)" --output examples/characters/generated/d_class_54493 --name d_class_54493
+uv run imagen_lab generate "$(cat examples/characters/security_officer.txt)" --output examples/characters/generated/security_officer --name security_officer
+uv run imagen_lab generate "$(cat examples/characters/site_technician.txt)" --output examples/characters/generated/site_technician --name site_technician
 
 # Then use them in video generation
 uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
@@ -99,10 +99,10 @@ Generate style references for different atmospheric approaches, then test them w
 
 ```bash
 # Generate style reference images
-uv run imagen_lab generate "Bright neon-lit cyberpunk server room with glowing data streams" --output examples/references/generated/neon_server --name neon_server_room
-uv run imagen_lab generate "Dark occult ritual space with candles and mystical symbols" --output examples/references/generated/occult_space --name occult_ritual_space
-uv run imagen_lab generate "Digital corruption glitch art aesthetic, distorted reality" --output examples/references/generated/digital_glitch --name digital_corruption
-uv run imagen_lab generate "Ethereal otherworldly glow, soft mystical lighting, dreamy ambiance" --output examples/references/generated/ethereal_light --name ethereal_glow
+uv run imagen_lab generate "$(cat examples/references/containment_facility.txt)" --output examples/references/generated/containment_facility --name containment_facility
+uv run imagen_lab generate "$(cat examples/references/concrete_tunnel.txt)" --output examples/references/generated/concrete_tunnel --name concrete_tunnel
+uv run imagen_lab generate "$(cat examples/references/abandoned_cityscape.txt)" --output examples/references/generated/abandoned_cityscape --name abandoned_cityscape
+uv run imagen_lab generate "$(cat examples/references/green_farmland.txt)" --output examples/references/generated/green_farmland --name green_farmland
 
 # Test with generated style references
 uv run -m veo_lab.ref_image_lab --ref-dir examples/references/generated/ --scene examples/basic_prompt.txt
@@ -114,13 +114,13 @@ uv run -m veo_lab.ref_image_lab --ref-dir examples/references/generated/ --scene
 
 ```bash
 # Inline prompt (quickest way to test)
-uv run -m veo_lab.simple --prompt "Subject: cyber-witch casting holographic spells, Style: neon-lit gothic atmosphere, Action: mystical energy flows"
+uv run -m veo_lab.simple --prompt "Subject: small carved red stone disc lying flat on mirror, Action: hand reaches down to pick it up, Style: clinical documentation"
 
 # From file (better for complex prompts)
 uv run -m veo_lab.simple --prompt-file examples/basic_prompt.txt
 
 # With negative prompt
-uv run -m veo_lab.simple -f examples/basic_prompt.txt -n "bright lighting, cheerful atmosphere"
+uv run -m veo_lab.simple -f examples/basic_prompt.txt -n "blurry, low quality, comedic elements"
 
 # Image-to-video (requires reference image)
 uv run -m veo_lab.simple -f examples/basic_prompt.txt -i path/to/reference.jpg
@@ -146,7 +146,7 @@ uv run -m veo_lab.shot_chain --file examples/chain_demo.yml
 uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json
 
 # Generate and concatenate into final video
-uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat final_seance.mp4
+uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat final_activation.mp4
 ```
 
 ### Template Matrix (`prompt_matrix`)
@@ -173,30 +173,45 @@ Both images and videos are organized in `out/` with consistent naming:
 
 ```
 out/
-├── 2025-01-15/
-│   ├── 143022_imagen_cyberpunk_character/    # Image generation
-│   │   ├── cyberpunk_character.jpg
+├── 2025-08-19/
+│   ├── 143022_imagen_3.0-002_d_class_personnel/    # Image generation
+│   │   ├── d_class_personnel.jpg
 │   │   ├── metadata.json
 │   │   └── prompt.txt
-│   └── 143045_simple_sailboat_in_fog/        # Video generation
-│       ├── sailboat_in_fog_veo3.mp4
+│   └── 143045_simple_veo2_red_stone_activation/     # Video generation
+│       ├── red_stone_activation.mp4
 │       ├── metadata.json
 │       └── prompt.txt
-└── latest -> 2025-01-15/143045_simple_sailboat_in_fog/
+└── latest -> 2025-08-19/143045_simple_veo2_red_stone_activation/
 ```
 
 **Custom output locations** (using `--output` flag):
 ```
 examples/characters/generated/
-├── cyber_witch/
-│   ├── cyber_witch.jpg
+├── d_class_20384/
+│   ├── d_class_20384.jpg
 │   ├── metadata.json
 │   └── prompt.txt
-└── digital_monk/
-    ├── digital_monk.jpg
+└── security_officer/
+    ├── security_officer.jpg
     ├── metadata.json
     └── prompt.txt
 ```
+
+## SCP-093 Extended Examples
+
+The `user_prompts/scp_093_extras/` directory contains additional content themed around dimensional portal exploration:
+
+```bash
+# Test extended scenes
+uv run -m veo_lab.simple --prompt-file user_prompts/scp_093_extras/farmhouse_crawler.txt --dry
+uv run -m veo_lab.simple --prompt-file user_prompts/scp_093_extras/control_room_discovery.txt --dry
+
+# Extended matrix testing
+uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config user_prompts/scp_093_extras/matrix_extended.yml --dry
+```
+
+These examples demonstrate clinical documentation aesthetics, institutional atmosphere, and dimensional exploration themes while maintaining the same technical workflows.
 
 ## Next Steps
 
