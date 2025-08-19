@@ -198,7 +198,9 @@ class TestWorkflowIntegration:
             mock_generate_video.side_effect = [mock_result1, mock_result2]
 
             # Execute character pack
-            character_pack_run(scene_prompt="test scene", ref_dir=ref_dir, k=2, output=temp_dir)
+            character_pack_run(
+                scene_prompt="test scene", ref_dir=ref_dir, k=2, output=temp_dir, dry=False
+            )
 
             # Verify workflow
             assert mock_image_from_file.call_count == 2
@@ -246,7 +248,7 @@ prompts:
             mock_image_from_file.return_value = Mock()
 
             # Execute shot chain
-            shot_chain_run(file=chain_config, output=temp_dir)
+            shot_chain_run(file=chain_config, output=temp_dir, concat=None, dry=False)
 
             # Verify workflow
             assert mock_generate_video.call_count == 3
