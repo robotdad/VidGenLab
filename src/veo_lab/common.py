@@ -159,7 +159,7 @@ def create_prompt_snippet(prompt: str, max_words: int = 4) -> str:
 
 
 def create_session_directory(
-    script_name: str, prompt: str, base_dir: pathlib.Path = OUT
+    script_name: str, prompt: str, base_dir: pathlib.Path = OUT, model: str = ""
 ) -> pathlib.Path:
     """Create a timestamped session directory for organized output."""
     now = datetime.now()
@@ -167,7 +167,13 @@ def create_session_directory(
     prompt_snippet = create_prompt_snippet(prompt)
     time_str = now.strftime("%H%M%S")
 
-    session_name = f"{time_str}_{script_name}_{prompt_snippet}"
+    # Include model info in folder name for technical organization
+    model_short = (
+        model.replace("veo-", "").replace("-generate-preview", "").replace("-preview", "")
+        if model
+        else "unknown"
+    )
+    session_name = f"{time_str}_{script_name}_{model_short}_{prompt_snippet}"
     session_dir = date_dir / session_name
     session_dir.mkdir(parents=True, exist_ok=True)
 
@@ -226,13 +232,12 @@ def save_session_metadata(
 
 
 def create_video_filename(prompt: str, model: str, sequence_num: int | None = None) -> str:
-    """Create a descriptive filename for generated videos."""
+    """Create a descriptive filename for generated videos (content-focused)."""
     prompt_snippet = create_prompt_snippet(prompt)
-    model_short = model.replace("veo-", "").replace("-generate-preview", "").replace("-preview", "")
 
     if sequence_num is not None:
-        return f"{sequence_num:02d}_{prompt_snippet}_{model_short}.mp4"
-    return f"{prompt_snippet}_{model_short}.mp4"
+        return f"{sequence_num:02d}_{prompt_snippet}.mp4"
+    return f"{prompt_snippet}.mp4"
 
 
 def generate_video(
@@ -260,7 +265,7 @@ def generate_video(
 
     # Create session directory if not provided
     if session_dir is None:
-        session_dir = create_session_directory(script_name, prompt, out_dir)
+        session_dir = create_session_directory(script_name, prompt, out_dir, picked_model)
 
     # Generate the video
     op = client.models.generate_videos(

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib
+import time
 
 import typer
 import yaml
@@ -31,6 +32,12 @@ def run(
     last_ref = None
     outs = []
     for i, p in enumerate(prompts, start=1):
+        # Add rate limit protection: wait 30 seconds between requests (except first)
+        if i > 1:
+            print("⏳ Waiting 30 seconds to respect rate limits...")
+            time.sleep(30)
+
+        print(f"🎬 Generating video {i}/{len(prompts)}: {p[:50]}...")
         res = generate_video(
             client,
             p,
@@ -43,7 +50,7 @@ def run(
         # Use the thumbnail that was already created
         if res.thumb:
             last_ref = image_from_file(res.thumb)
-    print(f"done {len(outs)} clips -> {session_dir}")
+    print(f"✅ Completed {len(outs)} clips -> {session_dir}")
 
 
 if __name__ == "__main__":

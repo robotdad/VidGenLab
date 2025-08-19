@@ -36,6 +36,7 @@ def create_output_path(
     prompt: str,
     output_dir: pathlib.Path | None = None,
     custom_name: str | None = None,
+    model: str = "",
 ) -> pathlib.Path:
     """Create output path following same naming pattern as veo_lab."""
     if output_dir:
@@ -51,12 +52,26 @@ def create_output_path(
     if len(prompt_slug) > 50:
         prompt_slug = prompt_slug[:50].rstrip("_")
 
+    # Include model info in folder name for technical organization
+    model_short = model.replace("imagen-", "").replace("-generate-", "-") if model else "unknown"
+
     if custom_name:
-        folder_name = f"{timestamp}_{script_name}_{custom_name}"
+        folder_name = f"{timestamp}_{script_name}_{model_short}_{custom_name}"
     else:
-        folder_name = f"{timestamp}_{script_name}_{prompt_slug}"
+        folder_name = f"{timestamp}_{script_name}_{model_short}_{prompt_slug}"
 
     return root / "out" / today / folder_name
+
+
+def create_prompt_snippet(prompt: str, max_words: int = 4) -> str:
+    """Extract a filename-safe snippet from a prompt for naming files."""
+    # Remove special characters and normalize whitespace
+    cleaned = re.sub(r"[^\w\s-]", "", prompt.lower()).strip()
+    # Take first few words
+    words = cleaned.split()[:max_words]
+    # Join with underscores and truncate if needed
+    snippet = "_".join(words)[:50]  # Max 50 chars
+    return snippet or "untitled"
 
 
 def save_metadata(

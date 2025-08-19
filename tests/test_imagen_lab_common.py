@@ -85,7 +85,7 @@ class TestFileOperations:
         """Test successful image saving."""
         # Mock response with generated image
         mock_image = Mock()
-        mock_image.data = b"fake_image_data"
+        mock_image.image_bytes = b"fake_image_data"
 
         mock_generated_image = Mock()
         mock_generated_image.image = mock_image
@@ -162,11 +162,11 @@ class TestModelManagement:
 
         # Known models should include expected values
         known_models = result["known"]
-        assert "imagen-3.0-generate-001" in known_models
+        assert "imagen-3.0-generate-002" in known_models
         assert "imagen-3.0-fast-generate-001" in known_models
 
         # Default should be reasonable
-        assert result["default"] in known_models or result["default"] == "imagen-3.0-generate-001"
+        assert result["default"] in known_models or result["default"] == "imagen-3.0-generate-002"
 
     def test_list_models_with_env_var(self):
         """Test model listing with custom env var."""

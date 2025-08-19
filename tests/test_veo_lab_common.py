@@ -63,15 +63,15 @@ class TestUtilityFunctions:
         """Test video filename creation."""
         # Basic case
         result = create_video_filename("witch casting spells", "veo-3.0-generate-preview")
-        assert result == "witch_casting_spells_3.0.mp4"
+        assert result == "witch_casting_spells.mp4"
 
         # With sequence number
         result = create_video_filename("test prompt", "veo-2.0-generate-001", sequence_num=3)
-        assert result == "03_test_prompt_2.0-generate-001.mp4"
+        assert result == "03_test_prompt.mp4"
 
         # Model name normalization
         result = create_video_filename("test", "veo-3.0-fast-generate-preview")
-        assert result == "test_3.0-fast.mp4"
+        assert result == "test.mp4"
 
     def test_list_models(self):
         """Test model listing functionality."""

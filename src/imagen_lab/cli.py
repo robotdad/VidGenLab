@@ -45,11 +45,11 @@ def generate(
     """Generate an image from a text prompt using Imagen."""
     import json
     import os
-    
+
     if list_models_flag:
         print(json.dumps(list_models(), indent=2))
         return
-        
+
     # Model selection precedence:
     # 1) Explicit --model argument
     # 2) IMAGEN_MODEL environment variable
@@ -61,7 +61,7 @@ def generate(
     print(f"Model: {picked_model}")
 
     # Create output path (but don't create directory for dry run)
-    output_path = create_output_path("imagen", prompt, output, custom_name)
+    output_path = create_output_path("imagen", prompt, output, custom_name, picked_model)
     print(f"Output: {output_path}")
 
     if dry:
@@ -82,8 +82,11 @@ def generate(
         # Generate image
         response = client.models.generate_images(model=picked_model, prompt=prompt)
 
-        # Save files
-        image_filename = f"{output_path.name}.jpg"
+        # Save files with content-focused filename
+        from imagen_lab.common import create_prompt_snippet
+
+        prompt_snippet = create_prompt_snippet(prompt)
+        image_filename = f"{prompt_snippet}.jpg"
         image_path = save_generated_image(response, output_path, image_filename)
         save_prompt_file(output_path, prompt)
         save_metadata(output_path, prompt, "imagen", picked_model)
@@ -118,7 +121,9 @@ def analyze(
     client = create_client()
     analysis_prompt = "Describe this image in detail, focusing on visual elements, style, composition, and mood. Create a prompt that could be used to generate a similar image."
 
-    output_path = create_output_path("analyze", f"analysis_of_{image_path.stem}", output)
+    output_path = create_output_path(
+        "analyze", f"analysis_of_{image_path.stem}", output, None, model
+    )
     output_path.mkdir(parents=True, exist_ok=True)
 
     print(f"Output: {output_path}")

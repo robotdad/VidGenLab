@@ -79,7 +79,7 @@ class TestImagenLabCLI:
         result = runner.invoke(imagen_app, ["generate", "simple prompt", "--dry"])
 
         assert result.exit_code == 0
-        assert "Model: imagen-3.0-generate-001" in result.output
+        assert "Model: imagen-3.0-generate-002" in result.output
         assert "simple prompt" in result.output
         assert "✅ Dry run complete - no API calls made" in result.output
 
@@ -273,7 +273,7 @@ class TestCLIValidation:
             # Should use default model
             mock_client.models.generate_images.assert_called_once()
             call_args = mock_client.models.generate_images.call_args
-            assert call_args[1]["model"] == "imagen-3.0-generate-001"
+            assert call_args[1]["model"] == "imagen-3.0-generate-002"
 
     def test_dry_run_functionality(self):
         """Test dry run mode doesn't make API calls."""
@@ -296,7 +296,7 @@ class TestCLIValidation:
             assert "🔍 Dry run - showing what would be generated:" in result.output
             assert "✅ Dry run complete - no API calls made" in result.output
             assert "test prompt" in result.output
-            assert "imagen-3.0-generate-001" in result.output
+            assert "imagen-3.0-generate-002" in result.output
 
             # Should NOT create client or make API calls
             mock_create_client.assert_not_called()
