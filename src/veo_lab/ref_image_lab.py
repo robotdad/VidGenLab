@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib
+import time
 
 import typer
 
@@ -23,9 +24,15 @@ def run(
     imgs = sorted([p for p in ref_dir.glob("*") if p.suffix.lower() in {".jpg", ".jpeg", ".png"}])
     assert imgs, "no images found in ref_dir"
     for i, path in enumerate(imgs, start=1):
+        # Add rate limit protection: wait 30 seconds between requests (except first)
+        if i > 1:
+            print("⏳ Waiting 30 seconds to respect rate limits...")
+            time.sleep(30)
+
+        print(f"🎬 Generating video {i}/{len(imgs)} with reference: {path.name}")
         ref = image_from_file(path)
         res = generate_video(client, prompt, image=ref, out_dir=output, name_prefix=f"ref{i:03d}-")
-        print(f"{path.name} -> {res.path.name}")
+        print(f"✅ {path.name} -> {res.path.name}")
 
 
 if __name__ == "__main__":

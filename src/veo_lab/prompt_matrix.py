@@ -3,6 +3,7 @@ from __future__ import annotations
 import itertools
 import json
 import pathlib
+import time
 
 import typer
 import yaml
@@ -34,13 +35,25 @@ def run(
     combos = list(itertools.product(*(dims[k] for k in bank)))
     client = create_client()
     rows = []
+    total_combinations = len(combos) * len(negatives)
+    current_combination = 0
+
     for combo in combos:
         vars_ = dict(zip(bank, combo, strict=False))
         prompt = Template(tpl_text).render(**vars_).strip()
         for neg in negatives:
+            current_combination += 1
+
             if dry:
-                print(prompt)
+                print(f"Combination {current_combination}/{total_combinations}: {prompt}")
                 continue
+
+            # Add rate limit protection: wait 30 seconds between requests (except first)
+            if current_combination > 1:
+                print("⏳ Waiting 30 seconds to respect rate limits...")
+                time.sleep(30)
+
+            print(f"🎬 Generating {current_combination}/{total_combinations}: {prompt[:50]}...")
             res = generate_video(client, prompt, negative=neg, out_dir=output, name_prefix="mx-")
             rows.append(
                 {

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import time
 
 import typer
 
@@ -33,6 +34,11 @@ def run(
     prev_last_ref = None
     clip_paths: list[pathlib.Path] = []
     for idx, shot in enumerate(shots, start=1):
+        # Add rate limit protection: wait 30 seconds between requests (except first)
+        if idx > 1:
+            print("⏳ Waiting 30 seconds to respect rate limits...")
+            time.sleep(30)
+
         prompt: str = shot["prompt"]
         negative: str = shot.get("negative", "")
         carry_last: bool = bool(shot.get("carry_last_frame", False))
@@ -40,6 +46,8 @@ def run(
         ref = prev_last_ref if (carry_last and prev_last_ref is not None) else None
         if image_path:
             ref = image_from_file(pathlib.Path(image_path))
+
+        print(f"🎬 Generating shot {idx}/{len(shots)}: {prompt[:50]}...")
         res = generate_video(
             client,
             prompt,

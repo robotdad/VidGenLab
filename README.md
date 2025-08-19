@@ -115,6 +115,28 @@ Dry-run is perfect for:
 - **Debugging CLI arguments** without API costs
 - **Development and scripting** workflows
 
+### Rate Limit Protection
+
+**Important**: Veo has strict rate limits. For Tier 1 users:
+- **Veo 2**: 2 requests/minute, 50 requests/day
+- **Veo 3**: 2 requests/minute, 10 requests/day
+
+**To avoid 429 errors**:
+1. **Always use `--dry` first** to validate prompts without consuming quota
+2. **Wait 30+ seconds between video generations** (especially for multi-video scripts)
+3. **Use Veo 2 for experimentation** (higher daily quota)
+4. **Monitor daily usage** - track your generations per day
+
+**Safe workflow for multi-video scripts**:
+```bash
+# Test first with dry run
+uv run -m veo_lab.shot_chain --file examples/chain_demo.yml --dry
+
+# If testing the actual generation, add delays between requests
+# For 3-video chain: expect 3+ minutes total (30s between each video)
+uv run -m veo_lab.shot_chain --file examples/chain_demo.yml
+```
+
 ## More Examples
 
 For comprehensive examples and all available scripts, see:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib
+import time
 
 import typer
 
@@ -48,11 +49,17 @@ def run(
     assert refs, "no reference images available (provide --ref-dir or --imagen-prompts)"
     outs = []
     for i, ref in enumerate(refs, start=1):
+        # Add rate limit protection: wait 30 seconds between requests (except first)
+        if i > 1:
+            print("⏳ Waiting 30 seconds to respect rate limits...")
+            time.sleep(30)
+
+        print(f"🎬 Generating video {i}/{len(refs)} with character reference...")
         res = generate_video(
             client, scene_prompt, image=ref, out_dir=output, name_prefix=f"pack{i:02d}-"
         )
         outs.append(res.path)
-    print(f"done {len(outs)} clips -> {output}")
+    print(f"✅ Completed {len(outs)} clips -> {output}")
 
 
 if __name__ == "__main__":

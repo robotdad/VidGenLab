@@ -130,7 +130,13 @@ uv run -m veo_lab.simple -f examples/basic_prompt.txt -n \"blurry, low quality\"
 **Purpose**: Sequential videos using last frames
 **Expected**: 3 videos + frame extracts for chaining
 
+**⚠️ RATE LIMIT WARNING**: This script generates 3 videos with 30-second delays = ~90 seconds total
+
 ```bash
+# Test first with dry run
+uv run -m veo_lab.shot_chain --file examples/chain_demo.yml --dry
+
+# Real generation (expect 90+ seconds due to rate limiting)
 uv run -m veo_lab.shot_chain --file examples/chain_demo.yml
 ```
 
@@ -147,12 +153,17 @@ uv run -m veo_lab.shot_chain --file examples/chain_demo.yml
 **Purpose**: Multi-shot with metadata and optional concatenation
 **Expected**: 2 videos from storyboard
 
+**⚠️ RATE LIMIT WARNING**: This script generates 2 videos with 30-second delays = ~30 seconds total
+
 ```bash
 # Test shot generation only
+uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --dry
+
+# Real generation (expect 30+ seconds due to rate limiting)
 uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json
 
 # Test with concatenation (creates final stitched video)
-uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat final_coffee.mp4
+uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat final_activation.mp4
 ```
 
 **Check Output**:
@@ -168,7 +179,13 @@ uv run -m veo_lab.storyboard --storyboard examples/storyboard_demo.json --concat
 **Purpose**: Generate all combinations of template variables
 **Expected**: 8 videos (2×2×2×2 combinations)
 
+**⚠️ RATE LIMIT WARNING**: This script generates 8 videos with 30-second delays = ~210 seconds total (~3.5 minutes)
+
 ```bash
+# Test first with dry run to see all combinations
+uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml --dry
+
+# Real generation (expect 3.5+ minutes due to rate limiting)
 uv run -m veo_lab.prompt_matrix --template examples/base_template.j2 --config examples/matrix_demo.yml
 ```
 
@@ -212,6 +229,8 @@ cat rewrites_test.json
 
 **Prerequisites**: First generate character references (see Image Generation section #3 above)
 
+**⚠️ RATE LIMIT WARNING**: This script generates 4 videos with 30-second delays = ~90 seconds total
+
 ```bash
 # Use generated character references (after generating them above)
 uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
@@ -245,6 +264,8 @@ uv run imagen_lab generate "$(cat examples/references/green_farmland.txt)" --out
 
 Then test with references:
 
+**⚠️ RATE LIMIT WARNING**: This script generates 4 videos with 30-second delays = ~90 seconds total
+
 ```bash
 # Use generated style references
 uv run -m veo_lab.ref_image_lab --ref-dir examples/references/generated/ --scene examples/basic_prompt.txt
@@ -268,6 +289,26 @@ After running each script, verify:
 - ✓ **Latest Link**: `out/latest` points to most recent generation
 - ✓ **Video Playback**: Generated videos actually play
 - ✓ **Expected Count**: Correct number of output files
+
+## Rate Limit Protection
+
+**⚠️ CRITICAL**: All multi-video scripts now include automatic 30-second delays between requests to prevent 429 errors.
+
+**Tier 1 Rate Limits**:
+- **Veo 2**: 2 requests/minute, 50 requests/day
+- **Veo 3**: 2 requests/minute, 10 requests/day
+
+**Expected Generation Times**:
+- **shot_chain** (3 videos): ~90 seconds
+- **storyboard** (2 videos): ~30 seconds  
+- **prompt_matrix** (8 videos): ~210 seconds (~3.5 minutes)
+- **character_pack** (4 videos): ~90 seconds
+- **ref_image_lab** (4 videos): ~90 seconds
+
+**If you still get 429 errors**:
+- Wait 24 hours for quota reset
+- Check your daily usage limit
+- Use only `--dry` mode for testing
 
 ## Common Issues
 
