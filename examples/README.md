@@ -89,7 +89,7 @@ uv run imagen_lab generate "$(cat examples/characters/d_class_54493.txt)" --outp
 uv run imagen_lab generate "$(cat examples/characters/security_officer.txt)" --output examples/characters/generated/security_officer --name security_officer
 uv run imagen_lab generate "$(cat examples/characters/site_technician.txt)" --output examples/characters/generated/site_technician --name site_technician
 
-# Then use them in video generation
+# Then use them in video generation (generates one video per character reference image)
 uv run -m veo_lab.character_pack --scene "$(cat examples/basic_prompt.txt)" --ref-dir examples/characters/generated/
 ```
 
@@ -104,7 +104,7 @@ uv run imagen_lab generate "$(cat examples/references/concrete_tunnel.txt)" --ou
 uv run imagen_lab generate "$(cat examples/references/abandoned_cityscape.txt)" --output examples/references/generated/abandoned_cityscape --name abandoned_cityscape
 uv run imagen_lab generate "$(cat examples/references/green_farmland.txt)" --output examples/references/generated/green_farmland --name green_farmland
 
-# Test with generated style references
+# Test with generated style references (generates one video per style reference image)
 uv run -m veo_lab.ref_image_lab --ref-dir examples/references/generated/ --scene examples/basic_prompt.txt
 ```
 
